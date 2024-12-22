@@ -19,7 +19,7 @@ public class TaskModel {
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
-  @Column(length = 50)
+  @Column(nullable = false, length = 50)
   private String title;
   private String description;
   private String priority;
@@ -30,5 +30,18 @@ public class TaskModel {
 
   @CreationTimestamp
   private LocalDateTime createdAt;
+
+  @SuppressWarnings("unused")
+  private void setTitle(String title) throws IllegalArgumentException {
+    if(title == null || title.isEmpty()) {
+      throw new IllegalArgumentException("The title cannot be null or empty.");
+    }
+
+    if (title.length() > 50) {
+      throw new IllegalArgumentException("The title cannot be greater than 50 characters.");
+    }
+
+    this.title = title;
+  }
   
 }
